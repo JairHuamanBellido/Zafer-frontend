@@ -1,0 +1,27 @@
+.field {
+  width: 360px;
+  position: relative;
+  & label {
+    color: $white;
+    opacity: 0.8;
+    font-size: 16px;
+  }
+}
+input {
+  width: 100%;
+  border-radius: 4px;
+  height: 48;
+  padding: 12px 16px;
+  background-color: #101023;
+  color: $white;
+  border: none;
+  margin-top: 8px;
+  font-size: 14px;
+  &::placeholder {
+    color: $white;
+    opacity: 0.2;
+  }
+  &:focus {
+    outline: none;
+  }
+}

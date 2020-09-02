@@ -1,0 +1,53 @@
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: $primary-color;
+  display: flex;
+  flex-direction: row;
+  &__left-side,
+  &__right-side {
+    width: 50%;
+    height: 100%;
+    position: relative;
+  }
+  &__left-side {
+    @include flex(column, center, center);
+  }
+  &__right-side {
+    & > div {
+      width: 100%;
+      & .title {
+        margin-bottom: 96px;
+        & h1 {
+          font-size: 24px;
+          font-weight: 700;
+        }
+        & p {
+          font-size: 16px;
+          font-weight: 400;
+          opacity: 0.787;
+          margin-top: 8px;
+        }
+      }
+      & .field-container {
+        margin-bottom: 42px;
+      }
+      & .forgot-password {
+        margin-top: 24px;
+        & p {
+          font-size: 14px;
+          text-decoration: underline;
+          color: $white;
+          font-weight: 400;
+          cursor: pointer;
+          opacity: 0.87;
+          transition: all 0.2s ease-out;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
