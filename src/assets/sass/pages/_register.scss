@@ -1,0 +1,53 @@
+.register-container {
+  width: 100vw;
+  height: 100vh;
+  background: $primary-color;
+  @include flex(column, flex-start, center);
+
+  &__form {
+    @include flex(column, center, center);
+    & .field-container {
+      @include flex(row, space-between, initial);
+      width: 840px;
+      margin-bottom: 48px;
+    }
+    & .submit-btn {
+      & button {
+        background: #2c4ae5 !important;
+      }
+    }
+
+    & .photo-submit {
+      @include flex(row, initial, center);
+      margin-top: 128px;
+      margin-bottom: 64px;
+      & img {
+        border-radius: 50px;
+      }
+      & .photo-input {
+        position: relative;
+        width: 128px;
+        height: 48px;
+        margin-left: 16px;
+
+        & input {
+          opacity: 0;
+          z-index: 2;
+          position: absolute;
+          cursor: pointer;
+          &:active ~ button {
+            transform: scale(0.95);
+          }
+        }
+
+        & button {
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background: #2c4ae5;
+        }
+      }
+    }
+  }
+}

@@ -16,7 +16,6 @@
   }
   &__right-side {
     @include flex(column, center, center);
-
     & > div {
       width: 100%;
       & .title {
@@ -50,7 +49,7 @@
           }
         }
       }
-      & .register-container {
+      & .register-redirect-container {
         margin-top: 64px;
         & p,
         & a {

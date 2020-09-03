@@ -2,9 +2,9 @@ import React from 'react';
 
 const LoginFormRegister = () => {
   return (
-    <div className="register-container">
+    <div className="register-redirect-container">
       <p>¿Eres un usuario nuevo?</p>
-      <a href="/login">Registrate aquí</a>
+      <a href="/register">Registrate aquí</a>
     </div>
   );
 };
