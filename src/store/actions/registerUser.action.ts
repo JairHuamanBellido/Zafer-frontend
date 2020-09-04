@@ -27,11 +27,15 @@ type AddPassword = {
   type: 'ADD_PASSWORD';
   payload: string;
 };
-
+type AddImg = {
+  type: 'ADD_IMAGE';
+  payload: string;
+};
 export type RegisterUserActions =
   | AddAddres
   | AddEmail
   | AddLastname
   | AddName
   | AddPassword
-  | AddPhone;
+  | AddPhone
+  | AddImg;

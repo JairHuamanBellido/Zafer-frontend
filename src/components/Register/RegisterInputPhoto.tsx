@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import Avatar from '../../assets/img/avatar-default.png';
 
 const RegisterInputPhoto: React.FC = () => {
-  const [img, setImg] = useState<string>('');
+  const [img, setImg] = useState<string>(Avatar);
 
   const handlePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

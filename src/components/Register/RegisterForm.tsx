@@ -1,22 +1,22 @@
-import React, { Dispatch } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { Dispatch, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import RegisterInputPhoto from './RegisterInputPhoto';
 import Input from '../../common/Input';
 import { RegisterUserActions } from '../../store/actions/registerUser.action';
-import { RegisterUserState } from '../../store/reducer/registerUser.reducer';
 
 interface Props {
   dispatch: Dispatch<RegisterUserActions>;
 }
 const NameInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>((state) => state.name);
+  const [name, setValue] = useState<string>('');
   const setName = (_name: string): void => {
-    dispatch({ type: 'ADD_NAME', payload: _name });
+    setValue(_name);
+    dispatch({ type: 'ADD_NAME', payload: name });
   };
 
   return (
     <Input
-      value={value}
+      value={name}
       setValue={setName}
       placeholder="Ingrese sus nombres"
       label="Nombres"
@@ -25,12 +25,11 @@ const NameInput: React.FC<Props> = ({ dispatch }) => {
 };
 
 const LastnameInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>(
-    (state) => state.lastname,
-  );
+  const [value, setValue] = useState<string>('');
 
   const setLastName = (_lastname: string): void => {
-    dispatch({ type: 'ADD_LASTNAME', payload: _lastname });
+    setValue(_lastname);
+    dispatch({ type: 'ADD_LASTNAME', payload: value });
   };
 
   return (
@@ -44,9 +43,10 @@ const LastnameInput: React.FC<Props> = ({ dispatch }) => {
 };
 
 const PhoneInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>((state) => state.phone);
+  const [value, setValue] = useState<string>('');
   const setPhone = (_phone: string): void => {
-    dispatch({ type: 'ADD_PHONE', payload: _phone });
+    setValue(_phone);
+    dispatch({ type: 'ADD_PHONE', payload: value });
   };
 
   return (
@@ -60,11 +60,10 @@ const PhoneInput: React.FC<Props> = ({ dispatch }) => {
 };
 
 const AddressInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>(
-    (state) => state.address,
-  );
+  const [value, setValue] = useState<string>('');
   const setAddress = (_address: string): void => {
-    dispatch({ type: 'ADD_ADDRESS', payload: _address });
+    setValue(_address);
+    dispatch({ type: 'ADD_ADDRESS', payload: value });
   };
 
   return (
@@ -78,9 +77,10 @@ const AddressInput: React.FC<Props> = ({ dispatch }) => {
 };
 
 const EmailInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>((state) => state.email);
+  const [value, setValue] = useState<string>('');
   const setAddress = (_address: string): void => {
-    dispatch({ type: 'ADD_ADDRESS', payload: _address });
+    setValue(_address);
+    dispatch({ type: 'ADD_ADDRESS', payload: value });
   };
 
   return (
@@ -94,11 +94,10 @@ const EmailInput: React.FC<Props> = ({ dispatch }) => {
 };
 
 const PasswordInput: React.FC<Props> = ({ dispatch }) => {
-  const value = useSelector<RegisterUserState, string>(
-    (state) => state.password,
-  );
+  const [value, setValue] = useState<string>('');
   const setPassword = (_payload: string): void => {
-    dispatch({ type: 'ADD_PASSWORD', payload: _payload });
+    setValue(_payload);
+    dispatch({ type: 'ADD_PASSWORD', payload: value });
   };
 
   return (

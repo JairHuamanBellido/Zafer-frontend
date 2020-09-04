@@ -8,6 +8,7 @@ export interface RegisterUserState {
   address: string;
   email: string;
   password: string;
+  image: string;
 }
 
 const registerState: RegisterUserState = {
@@ -17,6 +18,7 @@ const registerState: RegisterUserState = {
   name: '',
   password: '',
   phone: '',
+  image: '',
 };
 
 export const registerUserReducer: Reducer<
@@ -36,6 +38,8 @@ RegisterUserActions
       return { ...state, password: action.payload };
     case 'ADD_PHONE':
       return { ...state, phone: action.payload };
+    case 'ADD_IMAGE':
+      return { ...state, image: action.payload };
     default:
       return state;
   }
