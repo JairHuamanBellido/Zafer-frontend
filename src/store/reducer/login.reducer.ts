@@ -13,7 +13,7 @@ const loginState: LoginState = {
 
 export const loginReducer: Reducer<LoginState, LoginActions> = (
   state = loginState,
-  action
+  action,
 ) => {
   switch (action.type) {
     case 'ADD_EMAIL':
@@ -24,5 +24,3 @@ export const loginReducer: Reducer<LoginState, LoginActions> = (
       return state;
   }
 };
-
-

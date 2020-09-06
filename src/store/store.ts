@@ -4,10 +4,10 @@ import { loginReducer } from './reducer/login.reducer';
 import { registerUserReducer } from './reducer/registerUser.reducer';
 
 const reducers = combineReducers({
-  login: loginReducer,
-  registerUser: registerUserReducer,
+  loginReducer,
+  registerUserReducer,
 });
-
+export type RootState = ReturnType<typeof reducers>;
 export const store = createStore(
   reducers,
   composeWithDevTools(applyMiddleware()),

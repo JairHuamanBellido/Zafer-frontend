@@ -8,7 +8,9 @@
 // Components
 @import './components/input';
 @import './components/button';
+@import './components/loading-spinner';
 
 // pages
 @import './pages/login';
 @import './pages/register';
+@import './pages/register-success';

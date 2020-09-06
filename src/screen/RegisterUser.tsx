@@ -7,6 +7,7 @@ const RegisterUserScreen: React.FC = () => {
     <div className="register-container">
       <RegisterHeader />
       <RegisterForm />
+
     </div>
   );
 };

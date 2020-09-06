@@ -29,8 +29,22 @@ type AddPassword = {
 };
 type AddImg = {
   type: 'ADD_IMAGE';
-  payload: string;
+  payload: File;
 };
+
+type RegisterUserPending = {
+  type: 'REGISTER_USER_PENDING';
+};
+
+type RegisterUserSuccess = {
+  type: 'REGISTER_USER_SUCCESS';
+};
+
+type RegisterUserError = {
+  type: 'REGISTER_USER_ERROR';
+  payload: string
+};
+
 export type RegisterUserActions =
   | AddAddres
   | AddEmail
@@ -38,4 +52,7 @@ export type RegisterUserActions =
   | AddName
   | AddPassword
   | AddPhone
-  | AddImg;
+  | AddImg
+  | RegisterUserPending
+  | RegisterUserSuccess
+  | RegisterUserError;

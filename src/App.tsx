@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginScreen from './screen/Login';
 import RegisterUserScreen from './screen/RegisterUser';
+import RegisterUserSuccessScreen from './screen/RegisterUserSuccess';
 
 const App: React.FC = () => {
   return (
@@ -9,7 +10,16 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path="/login" render={() => <LoginScreen />} />
-          <Route path="/register" render={() => <RegisterUserScreen />} />
+          <Route
+            exact={true}
+            path="/register"
+            render={() => <RegisterUserScreen />}
+          />
+          <Route
+            exact={true}
+            path="/register/success"
+            render={() => <RegisterUserSuccessScreen />}
+          />
         </Switch>
       </Router>
     </>

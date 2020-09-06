@@ -8,7 +8,11 @@ export interface RegisterUserState {
   address: string;
   email: string;
   password: string;
-  image: string;
+  image?: File;
+  pending: boolean;
+  error: boolean;
+  success: boolean;
+  errorMessage: string;
 }
 
 const registerState: RegisterUserState = {
@@ -18,13 +22,19 @@ const registerState: RegisterUserState = {
   name: '',
   password: '',
   phone: '',
-  image: '',
+  pending: false,
+  error: false,
+  success: false,
+  errorMessage: '',
 };
 
-export const registerUserReducer: Reducer<
-RegisterUserState,
-RegisterUserActions
-> = (state = registerState, action) => {
+type State = RegisterUserState;
+type Action = RegisterUserActions;
+
+export const registerUserReducer: Reducer<State, Action> = (
+  state = registerState,
+  action,
+) => {
   switch (action.type) {
     case 'ADD_ADDRESS':
       return { ...state, address: action.payload };
@@ -40,6 +50,37 @@ RegisterUserActions
       return { ...state, phone: action.payload };
     case 'ADD_IMAGE':
       return { ...state, image: action.payload };
+    case 'REGISTER_USER_PENDING':
+      return {
+        ...state,
+        pending: true,
+        success: false,
+        error: false,
+        errorMessage: '',
+      };
+    case 'REGISTER_USER_SUCCESS':
+      return {
+        ...state,
+        pending: false,
+        success: true,
+        error: false,
+        errorMessage: '',
+        address: '',
+        email: '',
+        image: undefined,
+        lastname: '',
+        name: '',
+        password: '',
+        phone: '',
+      };
+    case 'REGISTER_USER_ERROR':
+      return {
+        ...state,
+        pending: false,
+        success: false,
+        error: true,
+        errorMessage: action.payload,
+      };
     default:
       return state;
   }

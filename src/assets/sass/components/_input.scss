@@ -18,11 +18,13 @@ input {
   border: none;
   margin-top: 8px;
   font-size: 14px;
+
   &::placeholder {
     color: $white;
     opacity: 0.2;
   }
   &:focus {
     outline: none;
+    border: 1px solid #2d2d68;
   }
 }

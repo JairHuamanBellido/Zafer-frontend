@@ -14,6 +14,7 @@ const EmailInput: React.FC = () => {
 
   return (
     <Input
+      type="email"
       className="field-container"
       setValue={setEmail}
       value={email}
@@ -46,7 +47,7 @@ const LoginForm: React.FC = () => {
     <>
       <EmailInput />
       <PasswordInput />
-      <Button backgroundColor="#2C4AE6" />
+      <Button value="Ingresar" backgroundColor="#2C4AE6" />
     </>
   );
 };
