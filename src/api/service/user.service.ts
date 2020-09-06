@@ -1,6 +1,6 @@
 import { MessageConfirmation } from '../models/MessageConfirmation';
-import http from '../http';
-import { CreateUser } from '../models/User';
+import { httpInstance } from '../http';
+import { CreateUser, AuthUser, AuthUserResponse } from '../models/User';
 
 class UserService {
   register = async (user: CreateUser): Promise<MessageConfirmation> => {
@@ -12,9 +12,19 @@ class UserService {
     formData.append('address', user.address);
     formData.append('email', user.email);
     formData.append('password', user.password);
-    return http
+    return httpInstance
       .post<{}, MessageConfirmation>('users', formData)
       .then((res) => res);
+  };
+
+  saveToken = (token: string): void => {
+    localStorage.setItem('token', token);
+  };
+
+  authenticate = async (auth: AuthUser): Promise<AuthUserResponse> => {
+    return httpInstance
+      .post<AuthUserResponse>('auth', auth)
+      .then((res) => res.data);
   };
 }
 

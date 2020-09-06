@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const httpInstance = axios.create({
-  baseURL: 'https://zafergame-api.herokuapp.com/',
+export const http = axios;
+export const httpInstance = http.create({
+  baseURL: 'http://localhost:3010/',
 });
-
-export default httpInstance;

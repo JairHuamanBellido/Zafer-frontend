@@ -7,3 +7,12 @@ export interface CreateUser {
   email: string;
   password: string;
 }
+
+export interface AuthUser {
+  email: string;
+  password: string;
+}
+
+export interface AuthUserResponse {
+  access_token: string;
+}

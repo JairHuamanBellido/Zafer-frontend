@@ -36,7 +36,13 @@ const Input: React.FC<Props> = ({
 
   return (
     <div className={`field ${className || ''}`}>
-      <label>{label}</label>
+      <label
+        className={`${
+          errorMessage && errorMessage.length > 0 ? 'label-error' : null
+        }`}
+      >
+        {label}
+      </label>
       <input
         style={{ border: errorBorder() }}
         value={value}

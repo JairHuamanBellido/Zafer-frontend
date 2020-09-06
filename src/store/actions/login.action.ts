@@ -8,4 +8,22 @@ type AddPassword = {
   payload: string;
 };
 
-export type LoginActions = AddEmail | AddPassword;
+type AuthenticatePending = {
+  type: 'AUTH_PENDING';
+};
+
+type AuthenticateSuccess = {
+  type: 'AUTH_SUCCESS';
+};
+
+type AuthenticateError = {
+  type: 'AUTH_ERROR';
+  payload: string;
+};
+
+export type LoginActions =
+  | AddEmail
+  | AddPassword
+  | AuthenticateError
+  | AuthenticateSuccess
+  | AuthenticatePending;

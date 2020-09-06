@@ -6,6 +6,15 @@
     opacity: 0.8;
     font-size: 14px;
     font-weight: 400;
+    &.label-error {
+      color: #f52355;
+    }
+  }
+  & .error-message {
+    margin-top: 16px;
+    color: #ff5252;
+    text-align: right;
+    font-size: 12px;
   }
 }
 input {
@@ -18,7 +27,9 @@ input {
   border: none;
   margin-top: 8px;
   font-size: 14px;
-
+  &.input-error {
+    border: 1px solid #f52355;
+  }
   &::placeholder {
     color: $white;
     opacity: 0.2;
