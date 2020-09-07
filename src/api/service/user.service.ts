@@ -1,6 +1,6 @@
 import { MessageConfirmation } from '../models/MessageConfirmation';
-import { httpInstance } from '../http';
-import { CreateUser, AuthUser, AuthUserResponse } from '../models/User';
+import http from '../http';
+import { CreateUser, AuthUser, AuthUserResponse, User } from '../models/User';
 
 class UserService {
   register = async (user: CreateUser): Promise<MessageConfirmation> => {
@@ -12,7 +12,7 @@ class UserService {
     formData.append('address', user.address);
     formData.append('email', user.email);
     formData.append('password', user.password);
-    return httpInstance
+    return http
       .post<{}, MessageConfirmation>('users', formData)
       .then((res) => res);
   };
@@ -22,9 +22,11 @@ class UserService {
   };
 
   authenticate = async (auth: AuthUser): Promise<AuthUserResponse> => {
-    return httpInstance
-      .post<AuthUserResponse>('auth', auth)
-      .then((res) => res.data);
+    return http.post<AuthUserResponse>('auth', auth).then((res) => res.data);
+  };
+
+  getPersonalInformation = async (): Promise<User> => {
+    return http.get<User>('users/me').then((res) => res.data);
   };
 }
 

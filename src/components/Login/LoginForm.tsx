@@ -1,10 +1,10 @@
 import React, { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Input from '../../common/Input';
-import Button from '../../common/Button';
+import Input from '../../common/Input/Input';
+import Button from '../../common/Button/Button';
 import userService from '../../api/service/user.service';
-import LoadingSpinner from '../../common/SpinnerLoading';
+import LoadingSpinner from '../../common/Loading/SpinnerLoading';
 
 const LoginForm: React.FC = () => {
   // Hooks

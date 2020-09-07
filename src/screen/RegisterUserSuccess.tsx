@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Button from '../common/Button';
+import Button from '../common/Button/Button';
 
 const RegisterUserSuccessScreen: React.FC = () => {
   const history = useHistory();

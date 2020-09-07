@@ -16,3 +16,10 @@ export interface AuthUser {
 export interface AuthUserResponse {
   access_token: string;
 }
+
+export interface User {
+  name: string;
+  lastname: string;
+  avatar: string;
+  id: string;
+}

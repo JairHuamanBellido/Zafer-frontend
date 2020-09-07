@@ -1,0 +1,35 @@
+.sidebar {
+  height: 100vh;
+  width: 240px;
+  padding: 32px;
+  background-color: #111120;
+  & h1 {
+    font-size: 24px;
+  }
+  &__nav {
+    margin-top: 48px;
+  }
+  &__nav-link {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 16px;
+    transition: all 0.2s ease-in-out;
+    margin-left: -8px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+      background: rgba(222, 222, 222, 0.05);
+    }
+    & a {
+      color: rgba(222, 222, 222, 0.7);
+      display: block;
+      text-decoration: none;
+      width: 100%;
+      padding: 8px;
+    }
+    &.active a {
+      color: #ffffff;
+    }
+  }
+}

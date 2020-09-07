@@ -1,0 +1,32 @@
+.headerbar {
+  width: calc(100vw - 240px);
+  height: 64px;
+  @include flex(row, space-between, center);
+  padding: 0 128px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  &__search {
+    & input {
+      height: 36px;
+      font-size: 13px;
+      margin: 0;
+    }
+  }
+  &__avatar {
+    @include flex(row, center, center);
+    transition: all 0.2s ease-in;
+    border-radius: 32px;
+    padding: 8px 16px;
+    cursor: pointer;
+    &:hover {
+      background-color: $hover;
+    }
+    & img {
+      border-radius: 32px;
+      margin-right: 16px;
+    }
+    & p {
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+}

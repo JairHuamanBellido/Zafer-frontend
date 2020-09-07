@@ -2,13 +2,13 @@ import React, { Dispatch, useState, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import RegisterInputPhoto from './RegisterInputPhoto';
-import Input from '../../common/Input';
+import Input from '../../common/Input/Input';
 import { RegisterUserActions } from '../../store/actions/registerUser.action';
 import RegisterButtonSubmit from './RegisterButtonSubmit';
 import { CreateUser } from '../../api/models/User';
 import { RootState } from '../../store/store';
 import UserService from '../../api/service/user.service';
-import LoadingSpinner from '../../common/SpinnerLoading';
+import LoadingSpinner from '../../common/Loading/SpinnerLoading';
 import { RegisterUserState } from '../../store/reducer/registerUser.reducer';
 
 const RegisterForm: React.FC = () => {

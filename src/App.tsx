@@ -1,9 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import LoginScreen from './screen/Login';
 import RegisterUserScreen from './screen/RegisterUser';
 import RegisterUserSuccessScreen from './screen/RegisterUserSuccess';
-import HomeScreen from './screen/Home';
+import HomeScreen from './screen/HomeLayout';
 import RouterGuard from './guards/RouterGuard';
 
 const App: React.FC = () => {
@@ -14,6 +19,15 @@ const App: React.FC = () => {
           <Route
             exact={true}
             path="/"
+            render={() => (
+              <RouterGuard
+                redirect="/login"
+                component={<Redirect to="/home" />}
+              />
+            )}
+          />
+          <Route
+            path="/home"
             render={() => (
               <RouterGuard redirect="/login" component={<HomeScreen />} />
             )}
