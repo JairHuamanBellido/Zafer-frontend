@@ -47,19 +47,13 @@ const UserItem: React.FC<{ user: User; isAdded?: boolean }> = ({
   const dispatch = useDispatch<Dispatch<OrganizationActions>>();
   const [selected, setSelected] = useState<boolean>(isAdded || false);
 
-  useEffect(() => {
-    const toggle = () => {
-      if (selected) {
-        dispatch({ type: 'ADD_MEMBERS', payload: user });
-        return;
-      }
-      dispatch({ type: 'REMOVE_MEMBERS', payload: user });
-    };
-    toggle();
-  }, [selected, dispatch, user]);
-
   const toggle = () => {
     setSelected(!selected);
+    if (!selected) {
+      dispatch({ type: 'ADD_MEMBERS', payload: user });
+      return;
+    }
+    dispatch({ type: 'REMOVE_MEMBERS', payload: user });
   };
 
   return (
