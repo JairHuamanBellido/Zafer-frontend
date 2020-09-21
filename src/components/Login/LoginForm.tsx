@@ -1,10 +1,12 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, Dispatch } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import userService from '../../api/service/user.service';
 import LoadingSpinner from '../../common/Loading/SpinnerLoading';
+
+import { UserActions } from '../../store/actions/user.action';
 
 const LoginForm: React.FC = () => {
   // Hooks
@@ -14,6 +16,9 @@ const LoginForm: React.FC = () => {
   const [errorEmail, setErrorEmail] = useState<string>('');
   const [errorPassword, setErrorPassword] = useState<string>('');
   const history = useHistory();
+
+  // Dispatch
+  const dispatch = useDispatch<Dispatch<UserActions>>();
 
   // Events
   const submit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -25,6 +30,8 @@ const LoginForm: React.FC = () => {
       const res = await userService.authenticate({ email, password });
       setLoading(false);
       userService.saveToken(res.access_token);
+      const user = await userService.getPersonalInformation();
+      dispatch({ type: 'SET_USER_SUCCESS', payload: user });
       history.replace('/');
     } catch (error) {
       setLoading(false);

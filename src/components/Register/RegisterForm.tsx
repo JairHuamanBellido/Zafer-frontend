@@ -5,7 +5,7 @@ import RegisterInputPhoto from './RegisterInputPhoto';
 import Input from '../../common/Input/Input';
 import { RegisterUserActions } from '../../store/actions/registerUser.action';
 import RegisterButtonSubmit from './RegisterButtonSubmit';
-import { CreateUser } from '../../api/models/User';
+import { CreateUser } from '../../api/models/User/User';
 import { RootState } from '../../store/store';
 import UserService from '../../api/service/user.service';
 import LoadingSpinner from '../../common/Loading/SpinnerLoading';

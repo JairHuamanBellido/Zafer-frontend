@@ -1,6 +1,12 @@
 import { MessageConfirmation } from '../models/MessageConfirmation';
 import http from '../http';
-import { CreateUser, AuthUser, AuthUserResponse, User } from '../models/User';
+import {
+  CreateUser,
+  AuthUser,
+  AuthUserResponse,
+  User,
+  UserPersonal,
+} from '../models/User/User';
 
 class UserService {
   register = async (user: CreateUser): Promise<MessageConfirmation> => {
@@ -25,8 +31,12 @@ class UserService {
     return http.post<AuthUserResponse>('auth', auth).then((res) => res.data);
   };
 
-  getPersonalInformation = async (): Promise<User> => {
-    return http.get<User>('users/me').then((res) => res.data);
+  getPersonalInformation = async (): Promise<UserPersonal> => {
+    return http.get<UserPersonal>('users/me').then((res) => res.data);
+  };
+
+  findUsersByName = async (name: string): Promise<User[]> => {
+    return http.get<User[]>(`users?name=${name}`).then((res) => res.data);
   };
 }
 

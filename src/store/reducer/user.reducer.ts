@@ -1,9 +1,9 @@
 import { Reducer } from 'react';
 import { UserActions } from '../actions/user.action';
-import { User } from '../../api/models/User';
+import { UserPersonal } from '../../api/models/User/User';
 
 export interface UserState {
-  user: User;
+  user: UserPersonal;
   errorUser: boolean;
   successUser: boolean;
   pedingUser: boolean;
@@ -15,6 +15,7 @@ const userState: UserState = {
     id: '',
     lastname: '',
     name: '',
+    organization: null,
   },
   errorUser: false,
   successUser: false,

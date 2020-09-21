@@ -1,32 +1,11 @@
 .loader {
   font-size: 10px;
-  margin: 50px auto;
   text-indent: -9999em;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #33ffaa;
-  background: -moz-linear-gradient(
-    left,
-    #33ffaa 10%,
-    rgba(255, 255, 255, 0) 42%
-  );
-  background: -webkit-linear-gradient(
-    left,
-    #33ffaa 10%,
-    rgba(255, 255, 255, 0) 42%
-  );
-  background: -o-linear-gradient(left, #33ffaa 10%, rgba(255, 255, 255, 0) 42%);
-  background: -ms-linear-gradient(
-    left,
-    #33ffaa 10%,
-    rgba(255, 255, 255, 0) 42%
-  );
-  background: linear-gradient(
-    to right,
-    #33ffaa 10%,
-    rgba(255, 255, 255, 0) 42%
-  );
+  background: transparent;
+
   position: relative;
   -webkit-animation: load3 1.4s infinite linear;
   animation: load3 1.4s infinite linear;
@@ -37,7 +16,7 @@
 .loader:before {
   width: 50%;
   height: 50%;
-  background: #33ffaa;
+  background: #ffffff;
   border-radius: 100% 0 0 0;
   position: absolute;
   top: 0;
@@ -46,8 +25,8 @@
 }
 .loader:after {
   background: $primary-color;
-  width: 75%;
-  height: 75%;
+  width: 85%;
+  height: 85%;
   border-radius: 50%;
   content: '';
   margin: auto;
@@ -78,6 +57,6 @@
   }
 }
 
-.spinner-loading-container{
+.spinner-loading-container {
   width: fit-content;
 }

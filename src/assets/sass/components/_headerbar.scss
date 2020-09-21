@@ -20,13 +20,43 @@
     &:hover {
       background-color: $hover;
     }
-    & img {
+    & img,
+    &-copy-img {
       border-radius: 32px;
       margin-right: 16px;
+      width: 28px;
+      height: 28px;
     }
     & p {
       font-weight: 500;
       font-size: 14px;
     }
+
+    &-copy-img,
+    &-copy-name {
+      overflow: hidden;
+      position: relative;
+      background: rgba(255, 255, 255, 0.2);
+      animation-name: loading;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    &-copy-name {
+      width: 100px;
+      height: 24px;
+      border-radius: 4px;
+    }
+  }
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background: rgba(255, 255, 255, 0.04);
   }
 }

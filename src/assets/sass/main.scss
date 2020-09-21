@@ -11,8 +11,11 @@
 @import './components/loading-spinner';
 @import './components/sidebar';
 @import './components/headerbar';
+@import './components/modal';
+
 // pages
 @import './pages/login';
 @import './pages/register';
 @import './pages/register-success';
 @import './pages/home';
+@import './pages/organization';

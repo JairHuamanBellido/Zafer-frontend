@@ -44,7 +44,7 @@ const Input: React.FC<Props> = ({
         {label}
       </label>
       <input
-        style={{ border: errorBorder() }}
+        style={{ border: errorMessage?.length ? errorBorder() : 'none' }}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}

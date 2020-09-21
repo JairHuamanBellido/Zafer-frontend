@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { User } from '../../api/models/User';
-import userService from '../../api/service/user.service';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { UserState } from '../../store/reducer/user.reducer';
+import { RootState } from '../../store/store';
 
-const HeaderBarAvatar: React.FC = () => {
-  const [user, setUser] = useState<User | undefined>(undefined);
+type S = RootState;
 
-  useEffect(() => {
-    userService.getPersonalInformation().then((e) => {
-      setUser(e);
-    });
-  }, []);
+const SkeletonAvatar: React.FC = () => {
   return (
     <div className="headerbar__avatar">
-      <img src={user?.avatar} width={28} height={28} alt="profile" />
-      <p> {user?.name}</p>
+      <div className="headerbar__avatar-copy-img" />
+      <div className="headerbar__avatar-copy-name" />
     </div>
   );
+};
+
+const HeaderBarAvatar: React.FC = () => {
+  const selector = useSelector<S, S['userReducer']>(
+    (state) => state.userReducer,
+  ) as UserState;
+
+  if (selector.user.name) {
+    return (
+      <div className="headerbar__avatar">
+        <img src={selector.user.avatar} alt="profile" />
+        <p> {selector.user.name}</p>
+      </div>
+    );
+  }
+  return <SkeletonAvatar />;
 };
 
 export default HeaderBarAvatar;

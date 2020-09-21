@@ -5,6 +5,7 @@ button {
   border: none;
   padding: 12px 24px;
   transition: all 0.05s ease-in-out;
+  background: $blue;
   &:focus {
     outline: none;
   }

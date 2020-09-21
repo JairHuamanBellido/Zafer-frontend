@@ -8,7 +8,12 @@ const HeaderBarSearch: React.FC = () => {
   };
   return (
     <div className="headerbar__search">
-      <Input placeholder="Estas buscando algo...?" setValue={s} value={text} />
+      <Input
+        
+        placeholder="Estas buscando algo...?"
+        setValue={s}
+        value={text}
+      />
     </div>
   );
 };
