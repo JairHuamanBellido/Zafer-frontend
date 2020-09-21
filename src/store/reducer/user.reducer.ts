@@ -52,6 +52,8 @@ export const userReducer: Reducer<State, Action> = (
         successUser: true,
         user: action.payload,
       };
+    case 'LOGOUT':
+      return userState;
     default:
       return state;
   }

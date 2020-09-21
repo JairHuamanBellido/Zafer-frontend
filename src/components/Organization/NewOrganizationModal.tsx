@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../../api/models/User/User';
 import userService from '../../api/service/user.service';
@@ -46,13 +46,20 @@ const UserItem: React.FC<{ user: User; isAdded?: boolean }> = ({
 }) => {
   const dispatch = useDispatch<Dispatch<OrganizationActions>>();
   const [selected, setSelected] = useState<boolean>(isAdded || false);
+
+  useEffect(() => {
+    const toggle = () => {
+      if (selected) {
+        dispatch({ type: 'ADD_MEMBERS', payload: user });
+        return;
+      }
+      dispatch({ type: 'REMOVE_MEMBERS', payload: user });
+    };
+    toggle();
+  }, [selected, dispatch, user]);
+
   const toggle = () => {
     setSelected(!selected);
-    if (!selected) {
-      dispatch({ type: 'ADD_MEMBERS', payload: user });
-      return;
-    }
-    dispatch({ type: 'REMOVE_MEMBERS', payload: user });
   };
 
   return (

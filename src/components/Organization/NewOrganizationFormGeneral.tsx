@@ -44,7 +44,7 @@ const OrganizationFormGeneral: React.FC = () => {
 
 const OrganizationNameInput: React.FC = () => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const organizationSelector = useSelector<S, S['organizationReducer']>(
+  const { name } = useSelector<S, S['organizationReducer']>(
     (state) => state.organizationReducer,
   ) as OrganizationState;
   const setName = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -55,7 +55,7 @@ const OrganizationNameInput: React.FC = () => {
     <label className="large" htmlFor="name-organization">
       <span> Nombre de la organización </span>
       <input
-        value={organizationSelector.name}
+        value={name}
         onChange={setName}
         placeholder="Ingrese el nombre de su organización"
         type="text"
