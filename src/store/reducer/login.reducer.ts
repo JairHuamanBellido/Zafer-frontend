@@ -1,4 +1,3 @@
-import { Reducer } from 'react';
 import { LoginActions } from '../actions/login.action';
 
 export interface LoginState {
@@ -19,10 +18,10 @@ const loginState: LoginState = {
   success: false,
 };
 
-export const loginReducer: Reducer<LoginState, LoginActions> = (
+export const loginReducer = (
   state = loginState,
-  action,
-) => {
+  action: LoginActions,
+): LoginState => {
   switch (action.type) {
     case 'ADD_EMAIL':
       return { ...state, email: action.payload };

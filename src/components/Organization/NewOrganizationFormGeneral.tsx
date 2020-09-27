@@ -1,13 +1,11 @@
 import React, { Dispatch, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   OrganizationActions,
   OrganizationFormActions,
 } from '../../store/actions/organization.action';
-import { OrganizationState } from '../../store/reducer/organization.reducer';
 import { RootState } from '../../store/store';
 
-type S = RootState;
 const parse = (date: Date): string => {
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -44,9 +42,10 @@ const OrganizationFormGeneral: React.FC = () => {
 
 const OrganizationNameInput: React.FC = () => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const { name } = useSelector<S, S['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
+  const name = useSelector(
+    (state: RootState) => state.organizationReducer.name,
+    shallowEqual,
+  );
   const setName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     organizationDispatch({ type: 'ADD_NAME', payload: e.target.value });
   };
@@ -68,27 +67,27 @@ const OrganizationNameInput: React.FC = () => {
 
 const OrganizationDateFoundationInput: React.FC = () => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const organizationSelector = useSelector<S, S['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
+  const dateFoundation = useSelector(
+    (state: RootState) => state.organizationReducer.dateFoundation,
+  );
   const setDate = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const day = new Date(e.target.value);
     day.setDate(day.getDate() + 1);
     organizationDispatch({ type: 'ADD_DATE_FOUNDATION', payload: day });
   };
   useEffect(() => {
-    if (organizationSelector.dateFoundation === undefined) {
+    if (dateFoundation === undefined) {
       const day = new Date();
       day.setDate(day.getDate() + 1);
       organizationDispatch({ type: 'ADD_DATE_FOUNDATION', payload: day });
     }
-  }, [organizationSelector.dateFoundation, organizationDispatch]);
+  }, [dateFoundation, organizationDispatch]);
 
   return (
     <label htmlFor="foundation-date">
       <span>Fecha de fundación</span>
       <input
-        value={parse(organizationSelector.dateFoundation)}
+        value={parse(dateFoundation)}
         onChange={setDate}
         placeholder="Ingrese la fecha de fundación"
         id="foundation-date"
@@ -101,9 +100,10 @@ const OrganizationDateFoundationInput: React.FC = () => {
 
 const OrganizationEmailInput: React.FC = () => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const organizationSelector = useSelector<S, S['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
+  const email = useSelector(
+    (state: RootState) => state.organizationReducer.email,
+    shallowEqual,
+  );
 
   const setEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
     organizationDispatch({ type: 'ADD_EMAIL', payload: e.target.value });
@@ -112,7 +112,7 @@ const OrganizationEmailInput: React.FC = () => {
     <label htmlFor="organization-email">
       <span>Correo de la organización</span>
       <input
-        value={organizationSelector.email}
+        value={email}
         onChange={setEmail}
         placeholder="Ingrese su correo electrónico"
         id="organization-email"

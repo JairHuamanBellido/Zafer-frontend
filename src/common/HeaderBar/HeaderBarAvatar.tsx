@@ -1,9 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { UserState } from '../../store/reducer/user.reducer';
 import { RootState } from '../../store/store';
-
-type S = RootState;
 
 const SkeletonAvatar: React.FC = () => {
   return (
@@ -15,15 +12,13 @@ const SkeletonAvatar: React.FC = () => {
 };
 
 const HeaderBarAvatar: React.FC = () => {
-  const selector = useSelector<S, S['userReducer']>(
-    (state) => state.userReducer,
-  ) as UserState;
+  const user = useSelector((state: RootState) => state.userReducer.user);
 
-  if (selector.user.name) {
+  if (user.name) {
     return (
       <div className="headerbar__avatar">
-        <img src={selector.user.avatar} alt="profile" />
-        <p> {selector.user.name}</p>
+        <img src={user.avatar} alt="profile" />
+        <p> {user.name}</p>
       </div>
     );
   }

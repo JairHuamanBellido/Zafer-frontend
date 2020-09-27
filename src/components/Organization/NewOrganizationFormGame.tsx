@@ -1,5 +1,5 @@
 import React, { Dispatch, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Game } from '../../api/models/Game/Game';
 import Modal from '../../common/Modal/Modal';
 import { ModalActions } from '../../store/actions/modal.action';
@@ -7,18 +7,22 @@ import {
   OrganizationActions,
   OrganizationFormActions,
 } from '../../store/actions/organization.action';
-import { ModalState } from '../../store/reducer/modal.reducer';
-import { OrganizationState } from '../../store/reducer/organization.reducer';
 import { RootState } from '../../store/store';
 import ModalOrganization from './NewOrganizationModal';
 import CheckCircle from '../../assets/img/ic_check-circle.svg';
 import PlusCircle from '../../assets/img/ic_plus-circle.svg';
 
-const GameComponent: React.FC<{
+interface GameComponentProps {
   game: Game;
   isEnableForRemove?: boolean;
   isAdded?: boolean;
-}> = ({ game, isEnableForRemove, isAdded }) => {
+}
+
+const GameComponent: React.FC<GameComponentProps> = ({
+  game,
+  isEnableForRemove,
+  isAdded,
+}) => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
   const [selected, setSelected] = useState<boolean>(isAdded as boolean);
 
@@ -52,14 +56,14 @@ const GameComponent: React.FC<{
 };
 
 const OrganizationGames: React.FC = () => {
-  const organizationSelector = useSelector<
-  RootState,
-  RootState['organizationReducer']
-  >((state) => state.organizationReducer) as OrganizationState;
+  const games = useSelector(
+    (state: RootState) => state.organizationReducer.games,
+    shallowEqual,
+  );
 
   return (
     <div className="organization-container__games">
-      {organizationSelector.games.map((game) => (
+      {games.map((game) => (
         <GameComponent
           isAdded={true}
           key={game.id}
@@ -71,25 +75,27 @@ const OrganizationGames: React.FC = () => {
   );
 };
 
+const OrganizationModalGame: React.FC = () => {
+  // Selector
+  const flag = useSelector(
+    (state: RootState) => state.modalReducer.flag,
+    shallowEqual,
+  );
+  return <>{flag && <Modal />}</>;
+};
+
 const OrganizationFormGame: React.FC = () => {
   // Dispatch
-  const dispatchOrganizationForm = useDispatch<
-  Dispatch<OrganizationFormActions>
-  >();
+  const dispatchForm = useDispatch<Dispatch<OrganizationFormActions>>();
   const modalDispatch = useDispatch<Dispatch<ModalActions>>();
-
-  // Selector
-  const modalSelector = useSelector<RootState, RootState['modalReducer']>(
-    (state) => state.modalReducer,
-  ) as ModalState;
 
   // Events
   const showFormMembers = (): void => {
-    dispatchOrganizationForm({ type: 'SHOW_MEMBERS_REGISTER', payload: true });
+    dispatchForm({ type: 'SHOW_MEMBERS_REGISTER', payload: true });
   };
 
   const showConfirmation = (): void => {
-    dispatchOrganizationForm({
+    dispatchForm({
       type: 'SHOW_CONFIRMATION_REGISTER',
       payload: true,
     });
@@ -103,7 +109,7 @@ const OrganizationFormGame: React.FC = () => {
   };
   return (
     <>
-      {modalSelector.flag && <Modal />}
+      <OrganizationModalGame />
       <div className="organization-container__form-games">
         <h2>Juegos</h2>
         <p>Agregar juegos en los que tu organizacion se encuentran.</p>

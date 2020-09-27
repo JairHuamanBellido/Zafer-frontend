@@ -36,6 +36,7 @@ export interface User {
   lastname: string;
   avatar: string;
   id: string;
+  role?: string;
 }
 
 /**

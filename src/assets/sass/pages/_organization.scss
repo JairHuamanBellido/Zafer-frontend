@@ -84,6 +84,7 @@
   &__games {
     margin: 24px auto;
     width: 100%;
+    position: relative;
   }
   &__member,
   &__game {
@@ -93,6 +94,7 @@
     transition: all 0.2s ease-in;
     &-info {
       @include flex(row, initial, center);
+      width: 45%;
       & img {
         width: 32px;
         height: 32px;
@@ -100,7 +102,7 @@
         margin-right: 12px;
       }
       & p {
-        color: '#ffffff';
+        color: #ffffff;
         opacity: 1;
         margin: 0;
       }
@@ -110,6 +112,8 @@
       height: fit-content;
       background: transparent;
     }
+  }
+  &__game {
     &:hover {
       background: #101023;
     }
@@ -127,6 +131,45 @@
       @include flex(column, center, center);
       & p {
         margin-top: 8px;
+      }
+    }
+  }
+
+  &__member {
+    &__selector-roles {
+      position: relative;
+      width: 150px;
+    }
+    &__roles {
+      position: absolute;
+      width: 240px;
+      top: 100%;
+      background: $primary-color;
+      box-shadow: 0 0 12px 4px rgba(7, 7, 7, 0.2);
+      border-radius: 4px;
+      z-index: 3;
+      & p {
+        cursor: pointer;
+        text-align: left;
+        margin: 0;
+        padding: 16px;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          background: $hover;
+        }
+      }
+    }
+    &__role {
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background: $hover;
+      }
+      & p {
+        margin: 0;
       }
     }
   }

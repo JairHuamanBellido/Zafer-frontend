@@ -1,4 +1,3 @@
-import { Reducer } from 'react';
 import { ModalActions } from '../actions/modal.action';
 
 export interface ModalState {
@@ -11,13 +10,10 @@ const modalState: ModalState = {
   component: undefined,
 };
 
-type State = ModalState;
-type Action = ModalActions;
-
-export const modalReducer: Reducer<State, Action> = (
+export const modalReducer = (
   state = modalState,
-  action,
-) => {
+  action: ModalActions,
+): ModalState => {
   switch (action.type) {
     case 'SHOW_MODAL':
       return { flag: true, component: action.payload };

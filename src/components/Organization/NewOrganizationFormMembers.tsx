@@ -1,27 +1,69 @@
 import React, { Dispatch, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { User } from '../../api/models/User/User';
 import Modal from '../../common/Modal/Modal';
 import {
   OrganizationActions,
   OrganizationFormActions,
 } from '../../store/actions/organization.action';
-import { ModalState } from '../../store/reducer/modal.reducer';
-import { UserState } from '../../store/reducer/user.reducer';
-import { OrganizationState } from '../../store/reducer/organization.reducer';
 import { RootState } from '../../store/store';
 import CheckCircle from '../../assets/img/ic_check-circle.svg';
 import PlusCircle from '../../assets/img/ic_plus-circle.svg';
 import { ModalActions } from '../../store/actions/modal.action';
 import ModalOrganization from './NewOrganizationModal';
+import { useVisible } from '../../common/CustomHook/useVisible';
+
+const SelectRoles: React.FC<{ user: User }> = ({ user }) => {
+  const [role, setRole] = useState<string>('Seleccione un role');
+  const { isVisible, ref, setIsVisible } = useVisible(false);
+  const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
+
+  const toggleShowRoles = (): void => {
+    setIsVisible(!isVisible);
+  };
+
+  const selectRole = (_role: string): void => {
+    setRole(_role);
+    organizationDispatch({
+      type: 'EDIT_MEMBER',
+      payload: { ...user, role: _role },
+    });
+    toggleShowRoles();
+  };
+
+  return (
+    <div ref={ref} className="organization-container__member__selector-roles">
+      <div
+        onClickCapture={toggleShowRoles}
+        className="organization-container__member__role"
+      >
+        <p>{role}</p>
+      </div>
+      {isVisible && (
+        <div className="organization-container__member__roles">
+          <p onClickCapture={() => selectRole('Capitan de equipo')}>
+            Capitan de equipo
+          </p>
+          <p onClickCapture={() => selectRole('Jugador')}>Jugador</p>
+          <p onClickCapture={() => selectRole('Reclutador')}>Reclutador</p>
+          <p onClickCapture={() => selectRole('Fan')}>Fan</p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const MemberComponent: React.FC<{
   user: User;
   isEnableForRemove?: boolean;
   isAdded?: boolean;
-}> = ({ user, isEnableForRemove, isAdded }) => {
+  role?: boolean;
+}> = ({ user, isEnableForRemove, isAdded, role }) => {
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
   const [selected, setSelected] = useState<boolean>(isAdded as boolean);
+  const member = useSelector(
+    (state: RootState) => state.organizationReducer.membersById[user.id],
+  );
 
   const toggle = () => {
     setSelected(!selected);
@@ -36,9 +78,10 @@ const MemberComponent: React.FC<{
       <div className="organization-container__member-info">
         <img src={user.avatar} alt={user.name} />
         <p>
-          {user.name} {user.lastname}
+          {member.name} {member.lastname}
         </p>
       </div>
+      {role && <SelectRoles user={member} />}
       {isEnableForRemove && (
         <div>
           <button onClick={toggle} type="button">
@@ -55,34 +98,41 @@ const MemberComponent: React.FC<{
 };
 
 const OrganizationsMembers: React.FC = () => {
-  const userSelector = useSelector<RootState, RootState['userReducer']>(
-    (state) => state.userReducer,
-  ) as UserState;
-  const organizationSelector = useSelector<
-  RootState,
-  RootState['organizationReducer']
-  >((state) => state.organizationReducer) as OrganizationState;
+  const user = useSelector(
+    (state: RootState) => state.userReducer.user,
+    shallowEqual,
+  );
+  const members = useSelector(
+    (state: RootState) => state.organizationReducer.members,
+    shallowEqual,
+  );
+
   return (
     <div className="organization-container__members">
-      <MemberComponent user={userSelector.user} />
-      {organizationSelector.members.map((user) => (
+      {members.map((member) => (
         <MemberComponent
           isAdded={true}
-          key={user.id}
-          user={user}
-          isEnableForRemove={user.id !== userSelector.user.id}
+          key={member.id}
+          user={member}
+          role={true}
+          isEnableForRemove={member.id !== user.id}
         />
       ))}
     </div>
   );
 };
 
+const OrganizationModalMembers: React.FC = () => {
+  const flag = useSelector(
+    (state: RootState) => state.modalReducer.flag,
+    shallowEqual,
+  );
+  return <>{flag && <Modal />}</>;
+};
+
 const OrganizationFormMembers: React.FC = () => {
   const dispatch = useDispatch<Dispatch<OrganizationFormActions>>();
   const modalDispatch = useDispatch<Dispatch<ModalActions>>();
-  const modalSelector = useSelector<RootState, RootState['modalReducer']>(
-    (state) => state.modalReducer,
-  ) as ModalState;
 
   const showFormGames = (): void => {
     dispatch({ type: 'SHOW_GAMES_REGISTER', payload: true });
@@ -100,7 +150,7 @@ const OrganizationFormMembers: React.FC = () => {
   };
   return (
     <>
-      {modalSelector.flag && <Modal />}
+      <OrganizationModalMembers />
       <div className="organization-container__form-members">
         <h2>Miembros</h2>
         <p>Agrega personas a tu organización</p>

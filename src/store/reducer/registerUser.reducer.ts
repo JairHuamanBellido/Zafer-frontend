@@ -1,4 +1,3 @@
-import { Reducer } from 'react';
 import { RegisterUserActions } from '../actions/registerUser.action';
 
 export interface RegisterUserState {
@@ -28,13 +27,10 @@ const registerState: RegisterUserState = {
   errorMessage: '',
 };
 
-type State = RegisterUserState;
-type Action = RegisterUserActions;
-
-export const registerUserReducer: Reducer<State, Action> = (
+export const registerUserReducer = (
   state = registerState,
-  action,
-) => {
+  action: RegisterUserActions,
+): RegisterUserState => {
   switch (action.type) {
     case 'ADD_ADDRESS':
       return { ...state, address: action.payload };

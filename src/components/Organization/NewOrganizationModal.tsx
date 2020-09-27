@@ -1,5 +1,5 @@
 import React, { Dispatch, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { User } from '../../api/models/User/User';
 import userService from '../../api/service/user.service';
 import { ModalActions } from '../../store/actions/modal.action';
@@ -17,20 +17,10 @@ import SkeletonSearchOrganization from './SkeletonSearchOrganization';
  *
  */
 const UserResults: React.FC<{ users: User[] }> = ({ users }) => {
-  const selector = useSelector<RootState, RootState['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
-
-  const isUserAdded = (user: User): boolean => {
-    return selector.members.filter((_user) => _user.id === user.id).length > 0;
-  };
-
   return (
     <div className="modal-container__find-persons__results">
       {users.length > 0 ? (
-        users.map((user) => (
-          <UserItem isAdded={isUserAdded(user)} key={user.id} user={user} />
-        ))
+        users.map((user) => <UserItem key={user.id} user={user} />)
       ) : (
         <div className="no-results">
           <p>Sin resultados</p>
@@ -40,12 +30,18 @@ const UserResults: React.FC<{ users: User[] }> = ({ users }) => {
   );
 };
 
-const UserItem: React.FC<{ user: User; isAdded?: boolean }> = ({
-  user,
-  isAdded,
-}) => {
+const UserItem: React.FC<{ user: User }> = ({ user }) => {
   const dispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const [selected, setSelected] = useState<boolean>(isAdded || false);
+  const [selected, setSelected] = useState<boolean>(false);
+
+  const member = useSelector(
+    (state: RootState) => state.organizationReducer.membersById[user.id],
+    shallowEqual,
+  );
+
+  useEffect(() => {
+    setSelected(member !== undefined);
+  }, [member, user]);
 
   const toggle = () => {
     setSelected(!selected);
@@ -85,9 +81,7 @@ const MembersSaved: React.FC = () => {
   return (
     <div className="modal-container__find-persons__members">
       {selector.members.length > 0 ? (
-        selector.members.map((user) => (
-          <UserItem isAdded={true} key={user.id} user={user} />
-        ))
+        selector.members.map((user) => <UserItem key={user.id} user={user} />)
       ) : (
         <div className="no-results">
           <p>No has agregado integrantes</p>
@@ -102,6 +96,7 @@ const ModalFindPersonsResultsContainer: React.FC = () => {
   const [searchName, setName] = useState<string>('');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   // Events
   const searchUsers = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);

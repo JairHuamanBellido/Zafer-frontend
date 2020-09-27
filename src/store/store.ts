@@ -8,6 +8,7 @@ import {
   organizationFormReducer,
 } from './reducer/organization.reducer';
 import { modalReducer } from './reducer/modal.reducer';
+import { notificationInviteReducer } from './reducer/notification-invite.reducer';
 
 const reducers = combineReducers({
   loginReducer,
@@ -16,9 +17,13 @@ const reducers = combineReducers({
   organizationReducer,
   organizationFormReducer,
   modalReducer,
+  notificationInviteReducer,
 });
 export type RootState = ReturnType<typeof reducers>;
+
 export const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware()),
+  process.env.NODE_ENV === 'development'
+    ? composeWithDevTools(applyMiddleware())
+    : undefined,
 );

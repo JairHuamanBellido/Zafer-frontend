@@ -1,10 +1,9 @@
 import React, { Dispatch, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   OrganizationActions,
   OrganizationFormActions,
 } from '../../store/actions/organization.action';
-import { OrganizationFormState } from '../../store/reducer/organization.reducer';
 import { RootState } from '../../store/store';
 import NewOrganizationConfirmation from './NewOrganizationConfirmation';
 import NewOrganizationForm from './NewOrganizationForm';
@@ -32,9 +31,13 @@ const NewOrganizationWelcome: React.FC = () => {
 const NewOrganization: React.FC = () => {
   const dispatch = useDispatch<Dispatch<OrganizationFormActions>>();
   const organizationDispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const selector = useSelector<RootState, RootState['organizationFormReducer']>(
-    (state) => state.organizationFormReducer,
-  ) as OrganizationFormState;
+  const selector = useSelector((state: RootState) => {
+    return {
+      isShowWelcomeForm: state.organizationFormReducer.isShowWelcomeForm,
+      isShowConfirmation: state.organizationFormReducer.isShowConfirmation,
+      isShowSuccess: state.organizationFormReducer.isShowSuccess,
+    };
+  }, shallowEqual);
 
   useEffect(() => {
     dispatch({ type: 'SHOW_WELCOME_REGISTER', payload: true });

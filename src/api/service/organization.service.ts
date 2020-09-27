@@ -1,13 +1,15 @@
-import { MessageConfirmation } from '../models/MessageConfirmation';
-import { CreateOrganization } from '../models/Organization/Organization';
 import http from '../http';
+import {
+  CreateOrganization,
+  Organization,
+} from '../models/Organization/Organization';
 
 class OrganizationService {
-  async create(organization: CreateOrganization): Promise<MessageConfirmation> {
+  create = async (organization: CreateOrganization): Promise<Organization> => {
     return http
-      .post<MessageConfirmation>('organizations', organization)
+      .post<Organization>('organizations', organization)
       .then((res) => res.data);
-  }
+  };
 }
 
 export default new OrganizationService();

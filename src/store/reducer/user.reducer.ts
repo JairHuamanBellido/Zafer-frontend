@@ -1,4 +1,3 @@
-import { Reducer } from 'react';
 import { UserActions } from '../actions/user.action';
 import { UserPersonal } from '../../api/models/User/User';
 
@@ -22,13 +21,10 @@ const userState: UserState = {
   pedingUser: false,
 };
 
-type State = UserState;
-type Action = UserActions;
-
-export const userReducer: Reducer<State, Action> = (
+export const userReducer = (
   state = userState,
-  action,
-) => {
+  action: UserActions,
+): UserState => {
   switch (action.type) {
     case 'SET_USER_ERROR':
       return {

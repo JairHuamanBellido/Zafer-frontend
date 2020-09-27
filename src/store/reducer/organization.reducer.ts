@@ -1,10 +1,13 @@
-import { Reducer } from 'react';
 import { Game } from '../../api/models/Game/Game';
 import { User } from '../../api/models/User/User';
 import {
   OrganizationActions,
   OrganizationFormActions,
 } from '../actions/organization.action';
+
+interface UserById {
+  [key: string]: User;
+}
 
 export interface OrganizationFormState {
   isShowGeneralForm: boolean;
@@ -19,6 +22,7 @@ export interface OrganizationState {
   dateFoundation: Date;
   email: string;
   members: User[];
+  membersById: UserById;
   games: Game[];
 }
 
@@ -36,16 +40,14 @@ const organizationState: OrganizationState = {
   dateFoundation: new Date(),
   email: '',
   members: [],
+  membersById: {},
   games: [],
 };
 
-type OState = OrganizationState;
-type OAction = OrganizationActions;
-
-export const organizationReducer: Reducer<OState, OAction> = (
+export const organizationReducer = (
   state = organizationState,
-  action,
-) => {
+  action: OrganizationActions,
+): OrganizationState => {
   switch (action.type) {
     case 'ADD_NAME':
       return { ...state, name: action.payload };
@@ -53,16 +55,38 @@ export const organizationReducer: Reducer<OState, OAction> = (
       return { ...state, email: action.payload };
     case 'ADD_DATE_FOUNDATION':
       return { ...state, dateFoundation: action.payload };
+
     case 'ADD_MEMBERS':
       return {
         ...state,
         members: [...state.members, action.payload],
+        membersById: {
+          ...state.membersById,
+          ...{ [action.payload.id]: action.payload },
+        },
       };
-    case 'REMOVE_MEMBERS':
+    case 'EDIT_MEMBER':
+      return {
+        ...state,
+        membersById: {
+          ...state.membersById,
+          [action.payload.id]: action.payload,
+        },
+      };
+
+    case 'REMOVE_MEMBERS': {
+      const rest: UserById = {};
+      Object.keys(state.membersById).forEach((e) => {
+        if (e !== action.payload.id) {
+          rest[e] = state.membersById[e];
+        }
+      });
       return {
         ...state,
         members: [...state.members.filter((e) => e.id !== action.payload.id)],
+        membersById: rest,
       };
+    }
     case 'ADD_GAMES':
       return {
         ...state,
@@ -80,12 +104,10 @@ export const organizationReducer: Reducer<OState, OAction> = (
   }
 };
 
-type OFState = OrganizationFormState;
-type OFAction = OrganizationFormActions;
-export const organizationFormReducer: Reducer<OFState, OFAction> = (
+export const organizationFormReducer = (
   state = organizationFormState,
-  action,
-) => {
+  action: OrganizationFormActions,
+): OrganizationFormState => {
   switch (action.type) {
     case 'SHOW_GAMES_REGISTER':
       return {

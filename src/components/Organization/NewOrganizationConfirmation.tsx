@@ -1,14 +1,13 @@
 import React, { Dispatch, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { CreateOrganization } from '../../api/models/Organization/Organization';
 import organizationService from '../../api/service/organization.service';
 import LoadingSpinner from '../../common/Loading/SpinnerLoading';
+import { NotificationContext } from '../../design-pattern/Notification/Context/Notification.context';
+import { Notification } from '../../design-pattern/Notification/Model/Notification';
+import { OrganizationNotificationStrategy } from '../../design-pattern/Notification/Strategy/OrganizationNotification.strategy';
 import { OrganizationFormActions } from '../../store/actions/organization.action';
-import { OrganizationState } from '../../store/reducer/organization.reducer';
-import { UserState } from '../../store/reducer/user.reducer';
 import { RootState } from '../../store/store';
-
-type S = RootState;
 
 const NewOrganizationConfirmation: React.FC = () => {
   // Hooks
@@ -19,12 +18,12 @@ const NewOrganizationConfirmation: React.FC = () => {
   const dispatch = useDispatch<Dispatch<OrganizationFormActions>>();
 
   // Selector
-  const userSelector = useSelector<S, S['userReducer']>(
-    (state) => state.userReducer,
-  ) as UserState;
-  const organizationSelector = useSelector<S, S['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
+  const user = useSelector((state: RootState) => state.userReducer.user);
+
+  const organizationSelector = useSelector(
+    (state: RootState) => state.organizationReducer,
+    shallowEqual,
+  );
 
   // Events
   const createOrganization = async (): Promise<void> => {
@@ -33,20 +32,41 @@ const NewOrganizationConfirmation: React.FC = () => {
       email: organizationSelector.email,
       fundation: organizationSelector.dateFoundation as Date,
       name: organizationSelector.name,
-      members: [
-        ...organizationSelector.members.map((e) => e.id),
-        userSelector.user.id,
-      ],
+      members: [user.id],
+      guestUsers: [...organizationSelector.members.map((e) => e.id)],
       games: [...organizationSelector.games.map((e) => e.id)],
     };
+
     try {
-      await organizationService.create(organization);
+      const newOrganization = await organizationService.create(organization);
       setLoading(false);
+      notifyAllGuestMembers(newOrganization.id);
       dispatch({ type: 'SHOW_SUCCESS', payload: true });
     } catch (_) {
       setLoading(false);
       setError(true);
     }
+  };
+
+  const notifyAllGuestMembers = (organizationId: string): void => {
+    const notificationContext = new NotificationContext(
+      new OrganizationNotificationStrategy(),
+    );
+
+    const notification: Notification = {
+      code: organizationId,
+      message: 'Únete a mi organización',
+      contextNotification: 'invite-organization',
+      receivers: Object.keys(organizationSelector.membersById).map((e) => {
+        return {
+          id: organizationSelector.membersById[e].id,
+          role: organizationSelector.membersById[e].role as string,
+        };
+      }),
+      transmitterId: user.id,
+    };
+
+    notificationContext.sendNotification(notification);
   };
 
   const showGamesForm = (): void => {

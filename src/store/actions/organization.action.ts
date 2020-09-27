@@ -57,7 +57,10 @@ type AddEmailOrganization = {
   type: 'ADD_EMAIL';
   payload: string;
 };
-
+type AddUsersBySearch = {
+  type: 'ADD_USERS_BY_SEARCH';
+  payload: User[];
+};
 type AddMembers = {
   type: 'ADD_MEMBERS';
   payload: User;
@@ -68,6 +71,10 @@ type RemoveMembers = {
   payload: User;
 };
 
+type EditMember = {
+  type: 'EDIT_MEMBER';
+  payload: User;
+};
 type AddGames = {
   type: 'ADD_GAMES';
   payload: Game;
@@ -91,6 +98,8 @@ export type OrganizationActions =
   | AddDateFoundationOrganization
   | AddEmailOrganization
   | AddMembers
+  | AddUsersBySearch
+  | EditMember
   | RemoveMembers
   | RemoveAllMembers
   | AddGames
