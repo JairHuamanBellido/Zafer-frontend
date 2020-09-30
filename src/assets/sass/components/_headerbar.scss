@@ -90,10 +90,7 @@
     padding: 16px 24px;
     @include flex(row, flex-start, center);
     transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      background: $hover;
-    }
+
     &__avatar {
       margin-right: 16px;
       & img {
@@ -112,6 +109,17 @@
       @include flex(column, center, center);
       & p {
         margin: 16px 0;
+      }
+    }
+    &__buttons {
+      margin-top: 16px;
+      & button {
+        padding: 8px;
+        margin-right: 12px;
+        height: fit-content;
+      }
+      & button.reject {
+        background: $hover;
       }
     }
   }
