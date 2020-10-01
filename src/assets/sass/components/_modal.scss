@@ -51,6 +51,9 @@
         &:active {
           transform: scale(0.99);
         }
+        &-not-allowed {
+          font-size: 14px;
+        }
         &-info {
           @include flex(row, initial, center);
         }

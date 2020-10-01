@@ -11,7 +11,7 @@ import CheckCircle from '../../assets/img/ic_check-circle.svg';
 import PlusCircle from '../../assets/img/ic_plus-circle.svg';
 import { ModalActions } from '../../store/actions/modal.action';
 import ModalOrganization from './NewOrganizationModal';
-import { useVisible } from '../../common/CustomHook/useVisible';
+import { useVisible } from '../../hooks/useVisible';
 
 const SelectRoles: React.FC<{ user: User }> = ({ user }) => {
   const [role, setRole] = useState<string>('Seleccione un role');

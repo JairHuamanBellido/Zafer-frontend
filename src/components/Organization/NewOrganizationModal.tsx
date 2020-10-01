@@ -1,5 +1,5 @@
-import React, { Dispatch, useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import React, { Dispatch, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../../api/models/User/User';
 import userService from '../../api/service/user.service';
 import { ModalActions } from '../../store/actions/modal.action';
@@ -11,85 +11,8 @@ import { OrganizationState } from '../../store/reducer/organization.reducer';
 import { Game } from '../../api/models/Game/Game';
 import gameService from '../../api/service/game.service';
 import SkeletonSearchOrganization from './SkeletonSearchOrganization';
-
-/**
- * Users Components
- *
- */
-const UserResults: React.FC<{ users: User[] }> = ({ users }) => {
-  return (
-    <div className="modal-container__find-persons__results">
-      {users.length > 0 ? (
-        users.map((user) => <UserItem key={user.id} user={user} />)
-      ) : (
-        <div className="no-results">
-          <p>Sin resultados</p>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const UserItem: React.FC<{ user: User }> = ({ user }) => {
-  const dispatch = useDispatch<Dispatch<OrganizationActions>>();
-  const [selected, setSelected] = useState<boolean>(false);
-
-  const member = useSelector(
-    (state: RootState) => state.organizationReducer.membersById[user.id],
-    shallowEqual,
-  );
-
-  useEffect(() => {
-    setSelected(member !== undefined);
-  }, [member, user]);
-
-  const toggle = () => {
-    setSelected(!selected);
-    if (!selected) {
-      dispatch({ type: 'ADD_MEMBERS', payload: user });
-      return;
-    }
-    dispatch({ type: 'REMOVE_MEMBERS', payload: user });
-  };
-
-  return (
-    <div onClickCapture={toggle} className="user">
-      <div className="user-info">
-        <div
-          className="avatar"
-          style={{ backgroundImage: `url(${user.avatar})` }}
-        />
-        <p className="name">
-          {user.name} {user.lastname}
-        </p>
-      </div>
-      <button type="button">
-        {!selected ? (
-          <img height={24} src={PlusCircle} alt="add-user" />
-        ) : (
-          <img height={24} src={CheckCircle} alt="check-user" />
-        )}
-      </button>
-    </div>
-  );
-};
-
-const MembersSaved: React.FC = () => {
-  const selector = useSelector<RootState, RootState['organizationReducer']>(
-    (state) => state.organizationReducer,
-  ) as OrganizationState;
-  return (
-    <div className="modal-container__find-persons__members">
-      {selector.members.length > 0 ? (
-        selector.members.map((user) => <UserItem key={user.id} user={user} />)
-      ) : (
-        <div className="no-results">
-          <p>No has agregado integrantes</p>
-        </div>
-      )}
-    </div>
-  );
-};
+import ModalUsersResults from './Modal/ModalUserResults';
+import ModalUsersSaved from './Modal/ModalUsersSaved';
 
 const ModalFindPersonsResultsContainer: React.FC = () => {
   // Hooks
@@ -133,7 +56,7 @@ const ModalFindPersonsResultsContainer: React.FC = () => {
           <SkeletonSearchOrganization />{' '}
         </div>
       ) : (
-        <UserResults users={users} />
+        <ModalUsersResults users={users} />
       )}
     </>
   );
@@ -169,11 +92,7 @@ const ModalFindPersons: React.FC = () => {
           {showingSearchContainer ? <CounterMembers /> : 'Buscar personas'}
         </button>
       </div>
-      {showingSearchContainer ? (
-        <ModalFindPersonsResultsContainer />
-      ) : (
-        <MembersSaved />
-      )}
+      {showingSearchContainer ? <ModalFindPersonsResultsContainer /> : <ModalUsersSaved />}
       <ModalActionsButton />
     </div>
   );
@@ -195,9 +114,7 @@ const GamesResults: React.FC<{ games: Game[] }> = ({ games }) => {
   return (
     <div className="modal-container__find-persons__results">
       {games.length > 0 ? (
-        games.map((game) => (
-          <GameItem isAdded={isGameAdded(game)} key={game.id} game={game} />
-        ))
+        games.map((game) => <GameItem isAdded={isGameAdded(game)} key={game.id} game={game} />)
       ) : (
         <div className="no-results">
           <p>Sin resultados</p>
@@ -207,10 +124,7 @@ const GamesResults: React.FC<{ games: Game[] }> = ({ games }) => {
   );
 };
 
-const GameItem: React.FC<{ game: Game; isAdded?: boolean }> = ({
-  game,
-  isAdded,
-}) => {
+const GameItem: React.FC<{ game: Game; isAdded?: boolean }> = ({ game, isAdded }) => {
   const dispatch = useDispatch<Dispatch<OrganizationActions>>();
   const [selected, setSelected] = useState<boolean>(isAdded || false);
   const toggle = () => {
@@ -225,10 +139,7 @@ const GameItem: React.FC<{ game: Game; isAdded?: boolean }> = ({
   return (
     <div onClickCapture={toggle} className="user">
       <div className="user-info">
-        <div
-          className="avatar"
-          style={{ backgroundImage: `url(${game.avatar})` }}
-        />
+        <div className="avatar" style={{ backgroundImage: `url(${game.avatar})` }} />
         <p className="name">{game.name}</p>
       </div>
       <button type="button">

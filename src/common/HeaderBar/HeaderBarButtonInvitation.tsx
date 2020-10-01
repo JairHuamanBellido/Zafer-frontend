@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { InvitationNotification as Notification } from '../../api/models/InvitationNotification/InvitationNotification';
 import { RequestInvitationEvent } from '../../api/socket/RequestInvitation.socket';
 import { NotificationInviteActions as NotificationActions } from '../../store/actions/notification-invite.action';
-import { useVisible } from '../CustomHook/useVisible';
+import { useVisible } from '../../hooks/useVisible';
 import InvitationRequestIcon from '../Icons/InvitationsRequestIcon';
 import NotificationListRequest from '../Notifications/NotificationRequest/NotificationListRequest';
 
